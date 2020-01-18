@@ -1,45 +1,29 @@
 function groupAdultsByAgeRange(people) {
-  const groups = ['20 and younger', '21-30', '31-40', '41-50', '51 and older'];
-  
-  return groups.reduce((obj, group) => {
-    switch (group) {
-      case '20 and younger':
-        const youngest = people.filter(person => person.age >= 18 && person.age <= 20);
-        if(youngest.length) {
-          obj[group] = youngest;
-        }
-        break;
+  const groups = {
+    '20 and younger': [17, 20],
+    '21-30': [20, 30],
+    '31-40': [30, 40],
+    '41-50': [40, 50],
+    '51 and older': [50]
+  };
 
-      case '21-30':
-        const younger = people.filter(person => person.age > 20 && person.age <= 30);
-        if(younger.length) {
-          obj[group] = younger;
-        }
-        break;
+  return Object.entries(groups).reduce((obj, group) => {
+    groupName = group[0];
+    groupLimits = group[1];
 
-      case '31-40':
-        const young = people.filter(person => person.age > 30 && person.age <= 40);
-        if(young.length) {
-          obj[group] = young;
-        }
-        break;
-
-      case '41-50':
-        const older = people.filter(person => person.age > 40 && person.age <= 50);
-        if(older.length) {
-          obj[group] = older;
-        }
-        break;
-
-      case '51 and older':
-        const oldest = people.filter(person => person.age > 50);
-        if(oldest.length) {
-          obj[group] = oldest;
-        }
-        break;
-    } 
+    if(groupLimits.length === 1) {
+      let persons = people.filter(person => person.age > groupLimits[0]);
+      if(persons.length) {
+        obj[groupName] = persons;
+      }
+    } else {
+      let persons = people.filter(person => person.age > groupLimits[0] && person.age <= groupLimits[1]);
+      if(persons.length) {
+        obj[groupName] = persons;
+      }
+    }
     return obj;
-  }, {})
+  }, {});
 }
 
 module.exports.groupAdultsByAgeRange = groupAdultsByAgeRange;
