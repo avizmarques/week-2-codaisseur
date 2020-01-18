@@ -4,7 +4,7 @@ function groupAdultsByAgeRange(people) {
   return groups.reduce((obj, group) => {
     switch (group) {
       case '20 and younger':
-        let youngest = people.filter(person => person.age <= 20);
+        let youngest = people.filter(person => person.age >= 18 && person.age <= 20);
         if (youngest.length) {
           obj[group] = youngest;
         }
